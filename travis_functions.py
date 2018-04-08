@@ -8,10 +8,11 @@
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def add_time(in_hour,in_min,in_sec,time_s):
-    #Increments inputed hour, minute, and second time (in military format) by desired seconds.
-       #All of the preceding functions work to calculate the exact time of day an event ends on based on its start time and the event's duration in seconds. Its
-       #inputs are, respectively, the starting hour (from 0 to 23), the starting minute, that starting second, and the amount of seconds that the event lasts. 
-       #Its outputs are, respectively, the ending hour (from 1 to 12), the ending minute, the ending second, and whether or not it is AM or PM.
+    '''Increments inputed hour, minute, and second time (in military format) by desired seconds.
+        All of the preceding functions work to calculate the exact time of day an event ends on based on its start time and the event's 
+        duration in seconds. Its inputs are, respectively, the starting hour (from 0 to 23), the starting minute, that starting second,
+        and the amount of seconds that the event lasts. Its outputs are, respectively, the ending hour (from 1 to 12), the ending minute,
+        the ending second, and whether or not it is AM or PM.''
     time = sec_to_hrminsec(time_s)
     if in_sec + time[2] < 60:
         tot_sec = in_sec + time[2]
@@ -41,7 +42,7 @@ def add_time(in_hour,in_min,in_sec,time_s):
     
     
 def sec_to_hrminsec(time_s):
-    #Used in add_time function.
+    '''Used in add_time function.'''
     if time_s<60:
         add_sec = time_s
         add_min = 0
@@ -59,7 +60,7 @@ def sec_to_hrminsec(time_s):
             
     
 def inc_min(mint,in_hour,time_h):
-    #Used in add_time function.
+    '''Used in add_time function.'''
     if mint < 60:
         tot_min = mint
         tot_hour = inc_hour(in_hour + time_h)
@@ -70,7 +71,7 @@ def inc_min(mint,in_hour,time_h):
     
         
 def inc_hour(hour):
-    #Used in add_time function.
+    '''Used in add_time function.'''
     if hour < 25:
         tot_hour = hour
     else:
@@ -82,7 +83,7 @@ def inc_hour(hour):
     
 
 def gen_prime(n):
-    #This function generates the first n number of prime numbers.
+    '''This function generates the first n number of prime numbers.'''
     start1 = 2
     start2 = 3
     collection = [start1,start2]
@@ -103,10 +104,10 @@ def gen_prime(n):
     
     
 def gen_twinprimes(n):
-    #This function generates the first n number of twin prime numbers. It makes use of the gen_prime() function in its procedure.
+    '''This function generates the first n number of twin prime numbers. It makes use of the gen_prime() function in its procedure.'''
     twin_primes = []
-    #Our first test run is done on the first n primes using gen_prime(). Since we know that (2,3) is not a twin prime, we are certain that our first run will not
-    #be sufficient to calculate the first n twin primes. 
+    #Our first test run is done on the first n primes using gen_prime(). Since we know that (2,3) is not a twin prime, we are certain 
+    # that our first run will not be sufficient to calculate the first n twin primes. 
     test_twins = gen_prime(n)
     for i in range(1,n-2):
         if test_twins[i+1] - test_twins[i] == 2:
@@ -132,7 +133,8 @@ def gen_twinprimes(n):
     
     
 def even_or_odd(x):
-    #This function determines whether input is odd, even, or not a real number. If input is a real number but not an integer, function will indicate this.
+    '''This function determines whether input is odd, even, or not a real number. If input is a real number but not an integer, function
+        will indicate this.'''
     if type(x) != int and type(x) != float:
         return False
         print("Your input needs to be a real number. C'mon man, be reasonable.")
@@ -152,7 +154,8 @@ def even_or_odd(x):
 
 
 def add_even_odd(n):
-    #This function adds all the even entries and all of the odd entries separately and reports both respective sums. Uses the even_or_odd() function.
+    '''This function adds all the even entries and all of the odd entries separately and reports both respective sums. Uses the even_or_odd()
+        function.'''
     even_sum = 0
     odd_sum = 0
     for i in n:
@@ -167,8 +170,8 @@ def add_even_odd(n):
     
     
 def print_list_separately(list_input,intro=False,outro=False):
-    #This function takes a list and prints each of its values on a separate line with a space in between. A
-    #prefacing text to be printed before the list value may be included if desired; similarly for an outro text.
+    '''This function takes a list and prints each of its values on a separate line with a space in between. A prefacing text to be 
+        printed before the list value may be included if desired; similarly for an outro text.'''
     if intro==False:
         pass
     else:
@@ -185,4 +188,28 @@ def print_list_separately(list_input,intro=False,outro=False):
         pass
     else:
         print("\n")
+        print(outro)
+        
+def print_list_fields_var_rows(data,fields,num_rows,intro=False,outro=False):
+    '''This function takes a list of tuples, a list of fields, an integer number of rows, (optionally) an introductory text, and 
+        (optionally) an outro text and prints the intro followed by dictionaries for each rows field into each field name followed by an
+        outro.'''
+    if len(data[0]) != len(fields):
+        return("The number of columns in your input data must match the length of your fields input.")
+    else:
+        pass
+    if intro==False:
+        pass
+    else:
+        print(intro)
+        print("\n")
+    assign = {}
+    for row in range(0,num_rows):
+        for col in range(0,len(fields)):
+            assign[fields[col]] = data[row][col]
+        print(assign)
+        print("\n")
+    if outro==False:
+        pass
+    else:
         print(outro)
