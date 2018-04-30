@@ -8,11 +8,11 @@
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def add_time(in_hour,in_min,in_sec,time_s):
-    '''Increments inputed hour, minute, and second time (in military format) by desired seconds.
-        All of the preceding functions work to calculate the exact time of day an event ends on based on its start time and the event's 
-        duration in seconds. Its inputs are, respectively, the starting hour (from 0 to 23), the starting minute, that starting second,
-        and the amount of seconds that the event lasts. Its outputs are, respectively, the ending hour (from 1 to 12), the ending minute,
-        the ending second, and whether or not it is AM or PM.''
+    '''Increments inputed hour, minute, and second time (in military format) by desired seconds. All of the preceding functions work to 
+        calculate the exact time of day an event ends on based on its start time and the event's duration in seconds. Its inputs are, 
+        respectively, the starting hour (from 0 to 23), the starting minute, that starting second, and the amount of seconds that the 
+        event lasts. Its outputs are, respectively, the ending hour (from 1 to 12), the ending minute, the ending second, and whether 
+        or not it is AM or PM.'''
     time = sec_to_hrminsec(time_s)
     if in_sec + time[2] < 60:
         tot_sec = in_sec + time[2]
@@ -41,6 +41,7 @@ def add_time(in_hour,in_min,in_sec,time_s):
     return fin_time         
     
     
+    
 def sec_to_hrminsec(time_s):
     '''Used in add_time function.'''
     if time_s<60:
@@ -57,7 +58,8 @@ def sec_to_hrminsec(time_s):
             add_min = time_m % 60
             add_hour = int(time_m/60)
     return (add_hour,add_min,add_sec)
-            
+         
+    
     
 def inc_min(mint,in_hour,time_h):
     '''Used in add_time function.'''
@@ -69,6 +71,7 @@ def inc_min(mint,in_hour,time_h):
         tot_hour = inc_hour(in_hour + time_h + 1)
     return (tot_hour,tot_min)
     
+        
         
 def inc_hour(hour):
     '''Used in add_time function.'''
@@ -82,6 +85,7 @@ def inc_hour(hour):
     return tot_hour
     
 
+    
 def gen_prime(n):
     '''This function generates the first n number of prime numbers.'''
     start1 = 2
@@ -101,6 +105,7 @@ def gen_prime(n):
         else:
             test_int += 1
     return collection
+    
     
     
 def gen_twinprimes(n):
@@ -127,9 +132,10 @@ def gen_twinprimes(n):
             pass
         test_next += 1
         #The below if statement is for debugging purposes only to prevent overflow. This line well be suppressed unless needed.
-#        if test_next > 1000:
-#            twin_primes = ["o","v","e","r","f","l","o","w","e","r"]
+        #if test_next > 1000:
+        #twin_primes = ["o","v","e","r","f","l","o","w","e","r"]
     return twin_primes
+    
     
     
 def even_or_odd(x):
@@ -169,6 +175,7 @@ def add_even_odd(n):
     print("The sum of even values in {} is {}. The sum of odd values in {} is {}.".format(n,even_sum,n,odd_sum))
     
     
+    
 def print_list_separately(list_input,intro=False,outro=False):
     '''This function takes a list and prints each of its values on a separate line with a space in between. A prefacing text to be 
         printed before the list value may be included if desired; similarly for an outro text.'''
@@ -189,6 +196,8 @@ def print_list_separately(list_input,intro=False,outro=False):
     else:
         print("\n")
         print(outro)
+        
+        
         
 def print_list_fields_var_rows(data,fields,num_rows,intro=False,outro=False):
     '''This function takes a list of tuples, a list of fields, an integer number of rows, (optionally) an introductory text, and 
@@ -213,3 +222,21 @@ def print_list_fields_var_rows(data,fields,num_rows,intro=False,outro=False):
         pass
     else:
         print(outro)
+
+        
+def list_to_dict(lst):
+    '''This function takes each entry 'k' of a passed list object and maps it to key 'entry_j' such that the
+        statement 'lst[j] == k' is True.'''
+    if type(lst) != list:
+        if type(lst) == tuple:
+            pass
+        else:
+            return "Function 'list_to_dict' only takes input of the tuple or list types."
+    key = {}
+    dum_list = []
+    lst_deg = len(lst)
+    for i in range(0,lst_deg):
+        dum_list.append("entry_{}".format(i))
+    for i in range(0,lst_deg):
+        key[dum_list[i]] = lst[i]
+    return key
