@@ -240,3 +240,56 @@ def list_to_dict(lst):
     for i in range(0,lst_deg):
         key[dum_list[i]] = lst[i]
     return key
+
+
+
+def PoE_attribute_tracker(state = True):
+    '''This function allows the user to adjust attribute values for their character from an initial blank state. Things it will do:
+    adjust integer increments or decrements to the included attributes, decline (most) unacceptable input attempts, continue to
+    iterate until the user indicates that they are finished. Things it will not do: accept float value adjustments to attributes,
+    handle user input with multiple colons.'''
+    attributes = ['int','str','mel_spd','mel_dam','acc','acc_pc','mana_cost_pc','atk_spd','dex','arm_pc',
+                  'enrg_shield_pc','life_gen_pc','cst_spd','mov_spd','spl_dam_pc','mel_dam_pc','life_pc',
+                  'evd_pc','arm_pc','stun_thrsh','Jewel_Socket','life','evd','mana_pc','mana','mana_gen_pc',
+                  'bow_dam_pc','psn_pc','bow_ailm_dam_pc','proj_spd','proj_dam_pc','bow_atk_spd','crit_pc',
+                  'lhtn_res_pc','cold_res_pc','fire_res_pc']
+    attributes.sort()
+    dum_list = [0]*len(attributes)
+    att_list = {}
+    for x in attributes:
+        att_list['{}'.format(x)] = dum_list[attributes.index(x)]
+    while state == True:
+        get_resp = True
+        while get_resp == True:
+            print("\nAttributes are: {}".format(attributes))
+            response = input("Which attribute do you wish to adjust and by what amount? Make selection in the \
+                                 form '{attribute}={value}'.\n")
+            if type(response) != str:
+                print("Input must be a string.\n")
+            elif response.rfind('=') == -1:
+                print("Your input does not match the required form.\n")
+            else:
+                int_pass = True
+                try:
+                    int(response[response.rfind('=')+1:])
+                except ValueError:
+                    int_pass = False
+                if int_pass == True:
+                    get_resp = False
+                else:
+                    print("The value after the colon in your input must be a string of a number.\n")
+        att = response[:response.rfind('=')]
+        val = int(response[response.rfind('=')+1:])
+        att_list[att] += val
+        print("\n{}".format(att_list))
+        request_cont = True
+        while request_cont == True:
+            cont = input("Would you like to keep going? Select either 'yes' or 'no'.\n")
+            if cont not in ["yes","no","y","n"]:
+                print("Your input must be either 'yes' or 'no'.\n")
+            else:
+                request_cont = False
+        if cont in ["no","n"]:
+            state = False
+        
+        
