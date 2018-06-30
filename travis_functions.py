@@ -42,6 +42,7 @@ def add_time(in_hour,in_min,in_sec,time_s):
     
     
     
+    
 def sec_to_hrminsec(time_s):
     '''Used in add_time function.'''
     if time_s<60:
@@ -61,6 +62,7 @@ def sec_to_hrminsec(time_s):
          
     
     
+    
 def inc_min(mint,in_hour,time_h):
     '''Used in add_time function.'''
     if mint < 60:
@@ -71,6 +73,7 @@ def inc_min(mint,in_hour,time_h):
         tot_hour = inc_hour(in_hour + time_h + 1)
     return (tot_hour,tot_min)
     
+        
         
         
 def inc_hour(hour):
@@ -85,6 +88,7 @@ def inc_hour(hour):
     return tot_hour
     
 
+    
     
 def gen_prime(n):
     '''This function generates the first n number of prime numbers.'''
@@ -105,6 +109,7 @@ def gen_prime(n):
         else:
             test_int += 1
     return collection
+    
     
     
     
@@ -138,6 +143,7 @@ def gen_twinprimes(n):
     
     
     
+    
 def even_or_odd(x):
     '''This function determines whether input is odd, even, or not a real number. If input is a real number but not an integer, function
         will indicate this.'''
@@ -159,6 +165,7 @@ def even_or_odd(x):
                 print("Integer {} is odd.".format(x))
 
 
+                
 def add_even_odd(n):
     '''This function adds all the even entries and all of the odd entries separately and reports both respective sums. Uses the even_or_odd()
         function.'''
@@ -173,6 +180,7 @@ def add_even_odd(n):
         else:
             pass
     print("The sum of even values in {} is {}. The sum of odd values in {} is {}.".format(n,even_sum,n,odd_sum))
+    
     
     
     
@@ -196,6 +204,7 @@ def print_list_separately(list_input,intro=False,outro=False):
     else:
         print("\n")
         print(outro)
+        
         
         
         
@@ -224,6 +233,7 @@ def print_list_fields_var_rows(data,fields,num_rows,intro=False,outro=False):
         print(outro)
 
         
+        
 def list_to_dict(lst):
     '''This function takes each entry 'k' of a passed list object and maps it to key 'entry_j' such that the
         statement 'lst[j] == k' is True.'''
@@ -240,6 +250,7 @@ def list_to_dict(lst):
     for i in range(0,lst_deg):
         key[dum_list[i]] = lst[i]
     return key
+
 
 
 
@@ -293,3 +304,132 @@ def PoE_attribute_tracker(state = True):
             state = False
         
         
+        
+
+def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
+    '''This function performs a Markov chain process on an initial state vector 'start' with transition matrix
+    'trans' for a total number of 'chain_num' Markov chains. It takes as input four variables: 'trans' as a 
+    numpy matrix, 'start' as a tuple, 'chain_num' as a nonzero positive integer, and an optional 'dec_place'
+    as a nonzero positive integer that defaults to a value of 5. Once called, the function will prompt the
+    user to indicate one of three possible output options to be provided as input: 'Final' to output only the
+    final vector which results from 'chain_num' Markov chains, 'All' to output a list of each of the state
+    vectors that result from each Markov chain (in order), or 'Other' to output a certain number of the last
+    state vectors that result from their Markov chain applications. If 'Other' is selected, the user is once
+    again prompted for input, this time to specify an 'input' number of state vectors from the tail of the
+    Markov chain procedure to be included as a list in the output. This 'input' number of tail values must be
+    both nonzero positive as well as less than 'chain_num' number of total Markov chains to be performed. For
+    the sake of computation, if the desired number of Markov chains is greater than one million, the function
+    will terminate unless the user specifies to override this precaution via input.'''
+        
+    #Our function begins by determining if the passed input values are acceptable values to use to perform the
+    # intended calculations for output. We begin with checks on 'trans':
+    if type(trans) != np.matrix:
+        return("The input 'trans' must be of the type 'np.matrix' from the numpy module.")
+    elif len(trans) != len(trans.transpose()):
+        return("The rank of matrix 'trans' must be equal to the rank of its tranpose 'trans.transpose()'.")
+    R = len(trans)
+    
+    #Next, we perform checks on 'start':
+    if type(start) not in [tuple,list]:
+        return("The input 'start' must be either of type 'tuple' or 'list'.")
+    elif type(start) in [tuple,list]:
+        if len(start) != R:
+            return("The length of input 'start' must match the dimension of matrix 'trans'.")
+        type_start = [type(item) for item in start]
+        if not set(type_start).issubset(set([int,float])):
+            return("Each entry of 'start' must be either of the 'float' or 'int' type.")
+            
+    #Our next check is on 'chain_num':
+    if type(chain_num) != int:
+        return("The input 'chain_num' must be a positive nonzero integer.")
+    elif chain_num < 1:
+        return("The input 'chain_num' cannot be 0 or a negative integer.")
+    elif chain_num > 1000000:
+        override_check = input("The specified number of 'chain_num' Markov chains will be computationally"
+                               " expensive and may crash the program. Do you still wish to proceed? Respond"
+                               " with either 'Yes' to proceed or anything else to ovveride:\n")
+        if override_check not in ['Yes','yes']:
+            return
+    
+    #If all other inputs are acceptable, our last check is performed on 'dec_place':
+    if type(dec_place) != int:
+        return("The input 'dec_place' must be a positive integer.")
+    elif dec_place < 0:
+        return("The input 'dec_place' cannot be a negative integer without losing all meaning.")
+        
+    #If all of the above checks are passed, the function will proceed to Markov chain procedure, beginning by
+    # prompting the user for input.
+    init_proceed = False
+    while init_proceed == False:
+        output_type = input("Would you like to receive the resultant vector of {} chains of your Markov"
+                            " process, would you like to receive a list containing the resultant vector of"
+                            " every step of this Markov process, or would you like to receive a certain"
+                            " number of the last iterations of this Markov process? Respond 'Final' for the"
+                            " first option, 'All' for' the second option, or 'Other' for the third option:\n"
+                            .format(chain_num))
+        if output_type in ['Final','final']:
+            init_proceed = True
+            nxt = start * trans
+            for n in range(1,chain_num):
+                nxt = nxt * trans
+            #The following rounds each entry in nxt and appends it to the empty matrix 'rounded'
+            rounded = []
+            for n in range(len(trans)):
+                rounded_n = round(nxt.item(n),dec_place)
+                rounded.append(rounded_n)
+            return(rounded)
+        if output_type in ['All','all']:
+            init_proceed = True
+            nxt = start * trans
+            first = []
+            for m in range(len(trans)):
+                rounded_m = round(nxt.item(m),dec_place)
+                first.append(rounded_m)
+            rounded_all = [first]
+            for n in range(1,chain_num):
+                nxt = nxt * trans
+                rounded = []
+                for m in range(len(trans)):
+                    rounded_m = round(nxt.item(m),dec_place)
+                    rounded.append(rounded_m)
+                rounded_all.append(rounded)
+            return(rounded_all)
+        if output_type in ['Other','other']:
+            init_proceed = True
+            proceed = False
+            while proceed == False:
+                tail_num = input("The output of this function will be a list of the last specified number N"
+                                 " applications of the Markov process. What number of last entries would you"
+                                 " like to receive? Respond with a nonzero positive integer less than the"
+                                 " number of Markov chains:\n")
+                int_check = True
+                try:
+                    int(tail_num)
+                except ValueError:
+                    int_check = False
+                if int_check == True:
+                    if all((int(tail_num)>0,int(tail_num)<chain_num)):
+                        proceed = True
+                        nxt = start * trans
+                        rounded_all = []
+                        for n in range(1,chain_num-int(tail_num)):
+                            nxt = nxt * trans
+                        for n in range(chain_num-int(tail_num),chain_num):
+                            rounded = []
+                            nxt = nxt * trans
+                            for m in range(len(trans)):
+                                rounded_m = round(nxt.item(m),dec_place)
+                                rounded.append(rounded_m)
+                            rounded_all.append(rounded)
+                        return(rounded_all)
+                    elif int(tail_num) < 0:
+                        print("'{}' is an invalid integer. Please enter a positive nonzero integer:\n"
+                              .format(int(tail_num)))
+                    else:
+                        print("'{}' is an invalid integer. Please enter an integer less than the number of"
+                              " Markov chains in the process:\n".format(int(tail_num)))
+                else:
+                    print("Your response is not an integer.\n")
+        else:
+            print("Your input must be either 'Final', 'All', or 'Other'.")
+            
