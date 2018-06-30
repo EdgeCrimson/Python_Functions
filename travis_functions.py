@@ -320,7 +320,8 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
     both nonzero positive as well as less than 'chain_num' number of total Markov chains to be performed. For
     the sake of computation, if the desired number of Markov chains is greater than one million, the function
     will terminate unless the user specifies to override this precaution via input.'''
-        
+    
+    
     #Our function begins by determining if the passed input values are acceptable values to use to perform the
     # intended calculations for output. We begin with checks on 'trans':
     if type(trans) != np.matrix:
@@ -357,6 +358,7 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
     elif dec_place < 0:
         return("The input 'dec_place' cannot be a negative integer without losing all meaning.")
         
+        
     #If all of the above checks are passed, the function will proceed to Markov chain procedure, beginning by
     # prompting the user for input.
     init_proceed = False
@@ -367,7 +369,7 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
                             " number of the last iterations of this Markov process? Respond 'Final' for the"
                             " first option, 'All' for' the second option, or 'Other' for the third option:\n"
                             .format(chain_num))
-        if output_type in ['Final','final']:
+        if output_type in ['Final','final','f','last','l']:
             init_proceed = True
             nxt = start * trans
             for n in range(1,chain_num):
@@ -378,7 +380,7 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
                 rounded_n = round(nxt.item(n),dec_place)
                 rounded.append(rounded_n)
             return(rounded)
-        if output_type in ['All','all']:
+        if output_type in ['All','all','a']:
             init_proceed = True
             nxt = start * trans
             first = []
@@ -394,7 +396,7 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
                     rounded.append(rounded_m)
                 rounded_all.append(rounded)
             return(rounded_all)
-        if output_type in ['Other','other']:
+        if output_type in ['Other','other','o']:
             init_proceed = True
             proceed = False
             while proceed == False:
@@ -432,4 +434,4 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
                     print("Your response is not an integer.\n")
         else:
             print("Your input must be either 'Final', 'All', or 'Other'.")
-            
+    
