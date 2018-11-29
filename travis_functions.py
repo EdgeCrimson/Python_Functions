@@ -435,3 +435,34 @@ def MarkovState_Calculator(trans,start,chain_num,dec_place=5):
         else:
             print("Your input must be either 'Final', 'All', or 'Other'.")
     
+
+    
+    
+def preimages_of_Y_when_min_is_rm(Y,unique=False):
+    '''Takes a positive integer n-tuple and outputs a list of n+1-tuples where new entries are from the set of values\
+ ranging from the 1 to the minimum value of the list. By default, all permutations are outputted; however, if\
+ optional parameter 'unique' is set to be True, only the unique permutations are outputted.'''
+#We make sure our input is a list:
+    if type(Y)!=list:
+        if type(Y)==tuple:
+            Y = list(Y)
+        else:
+            return("Input must be of either the list or tuple type.")
+#We make sure our list has values that are positive integers:
+    for item in Y:
+        if type(item)!=int:
+            return("Input's entries must be positive integers.")
+        else:
+            if item <= 0:
+                return("Input's entries must be greater than zero.")
+#We perform the indicated calculation:
+    pre_image = []
+    for i in range(1,min(Y)+1):
+        pre_image.append([i]+Y)
+        for j in range(1,len(Y)+1):
+            pre_image.append(Y[0:j] + [i] + Y[j:])
+    if unique == True:
+        tuple_list = [tuple(item) for item in pre_image]
+        tuple_set = set(tuple_list)
+        pre_image = [list(item) for item in tuple_set]
+    return(pre_image)
