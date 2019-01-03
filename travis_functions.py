@@ -466,3 +466,30 @@ def preimages_of_Y_when_min_is_rm(Y,unique=False):
         tuple_set = set(tuple_list)
         pre_image = [list(item) for item in tuple_set]
     return(pre_image)
+
+
+
+
+def gen_randint(number=1,minim=1,maxum=10,rep=True,return_dummy=False):
+    if rep==True:
+        rand_vect = list(np.random.randint(minim,maxum+1,number))
+        return(rand_vect)
+    else:
+        if number > 1 + maxum - minim:
+            return("You cannot have more unique results than available numbers to choose from.")
+        thresh = 1
+        first = list(np.random.randint(minim,maxum+1,1))
+        build_vect = [first]
+        dummy_vect = [first]
+        while thresh < number:
+            next_num = list(np.random.randint(minim,maxum+1,1))
+            dummy_vect.append(next_num)
+            if next_num not in build_vect:
+                build_vect.append(next_num)
+                thresh += 1
+        retrn = {}
+        retrn['return_vector'] = build_vect
+        if return_dummy == True:
+            retrn['dummy_vector'] = dummy_vect
+        return(retrn)
+        
